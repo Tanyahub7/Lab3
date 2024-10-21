@@ -1,0 +1,72 @@
+#include <iostream>
+#include <cmath>   
+
+using namespace std;
+
+// Функція корисності U(x) = ln(x + 30)
+double utility(double x) {
+    return log(x + 30);
+}
+
+// Функція для обчислення сподіваного виграшу
+double expected_value(double x1, double p1, double x2, double p2) {
+    return p1 * x1 + p2 * x2;
+}
+
+// Функція для обчислення сподіваної корисності
+double expected_utility(double x1, double p1, double x2, double p2) {
+    return p1 * utility(x1) + p2 * utility(x2);
+}
+
+
+double certainty_equivalent(double exp_util) {
+    return exp(exp_util) - 30;
+}
+
+int main() {
+   
+    double L1_x1 = -20, L1_p1 = 0.5, L1_x2 = -10, L1_p2 = 0.5;
+    double L2_x1 = -25, L2_p1 = 0.5, L2_x2 = -15, L2_p2 = 0.5;
+    double L3_x1 = -29, L3_p1 = 0.5, L3_x2 = -19, L3_p2 = 0.5;
+
+    
+    double L1_EV = expected_value(L1_x1, L1_p1, L1_x2, L1_p2);
+    double L1_EU = expected_utility(L1_x1, L1_p1, L1_x2, L1_p2);
+    double L1_CE = certainty_equivalent(L1_EU);
+    double L1_RP = L1_EV - L1_CE;
+
+   
+    double L2_EV = expected_value(L2_x1, L2_p1, L2_x2, L2_p2);
+    double L2_EU = expected_utility(L2_x1, L2_p1, L2_x2, L2_p2);
+    double L2_CE = certainty_equivalent(L2_EU);
+    double L2_RP = L2_EV - L2_CE;
+
+    
+    double L3_EV = expected_value(L3_x1, L3_p1, L3_x2, L3_p2);
+    double L3_EU = expected_utility(L3_x1, L3_p1, L3_x2, L3_p2);
+    double L3_CE = certainty_equivalent(L3_EU);
+    double L3_RP = L3_EV - L3_CE;
+
+    
+    cout << "Лотерея 1: Сподіваний виграш = " << L1_EV << ", Детермінований еквівалент = " << L1_CE << ", Премія за ризик = " << L1_RP << endl;
+    cout << "Лотерея 2: Сподіваний виграш = " << L2_EV << ", Детермінований еквівалент = " << L2_CE << ", Премія за ризик = " << L2_RP << endl;
+    cout << "Лотерея 3: Сподіваний виграш = " << L3_EV << ", Детермінований еквівалент = " << L3_CE << ", Премія за ризик = " << L3_RP << endl;
+
+    // Вибір лотереї за максимальним детермінованим еквівалентом
+    if (L1_CE >= L2_CE && L1_CE >= L3_CE) {
+        cout << "Обирається лотерея 1." << endl;
+    } else if (L2_CE >= L1_CE && L2_CE >= L3_CE) {
+        cout << "Обирається лотерея 2." << endl;
+    } else {
+        cout << "Обирається лотерея 3." << endl;
+    }
+
+    
+    if (L1_RP > 0 || L2_RP > 0 || L3_RP > 0) {
+        cout << "Особа не схильна до ризику." << endl;
+    } else {
+        cout << "Особа схильна до ризику." << endl;
+    }
+
+    return 0;
+}
